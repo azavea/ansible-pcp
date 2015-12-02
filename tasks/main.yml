@@ -1,0 +1,14 @@
+---
+- name: Configure the Netflix OSS APT key
+  apt_key: url="https://bintray.com/user/downloadSubjectPublicKey?username=netflixoss"
+           state=present
+
+- name: Configure the Netflix OSS APT repository
+  apt_repository: repo="deb https://dl.bintray.com/netflixoss/ubuntu {{ ansible_distribution_release }} main"
+                  state=present
+
+- name: Install Performance Co-Pilot
+  apt: pkg="{{ item }}={{ pcp_version }}" state=present
+  with_items:
+    - pcp
+    - pcp-webapi
